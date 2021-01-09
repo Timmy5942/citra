@@ -159,6 +159,8 @@ struct Values {
     u16 frame_limit;
     u16 frame_limit_alternate;
     std::string texture_filter_name;
+    bool FMV_hack;
+    u16 AddTicks;
 
     LayoutOption layout_option;
     bool swap_screen;

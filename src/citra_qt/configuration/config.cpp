@@ -57,7 +57,7 @@ const std::array<std::array<int, 5>, Settings::NativeAnalog::NumAnalogs> Config:
 // This must be in alphabetical order according to action name as it must have the same order as
 // UISetting::values.shortcuts, which is alphabetically ordered.
 // clang-format off
-const std::array<UISettings::Shortcut, 23> default_hotkeys{
+const std::array<UISettings::Shortcut, 24> default_hotkeys{
     {{QStringLiteral("Advance Frame"),            QStringLiteral("Main Window"), {QStringLiteral("\\"), Qt::ApplicationShortcut}},
      {QStringLiteral("Capture Screenshot"),       QStringLiteral("Main Window"), {QStringLiteral("Ctrl+P"), Qt::ApplicationShortcut}},
      {QStringLiteral("Continue/Pause Emulation"), QStringLiteral("Main Window"), {QStringLiteral("F4"), Qt::WindowShortcut}},
@@ -78,6 +78,7 @@ const std::array<UISettings::Shortcut, 23> default_hotkeys{
      {QStringLiteral("Toggle Alternate Speed"),   QStringLiteral("Main Window"), {QStringLiteral("Ctrl+Z"), Qt::ApplicationShortcut}},
      {QStringLiteral("Toggle Filter Bar"),        QStringLiteral("Main Window"), {QStringLiteral("Ctrl+F"), Qt::WindowShortcut}},
      {QStringLiteral("Toggle Frame Advancing"),   QStringLiteral("Main Window"), {QStringLiteral("Ctrl+A"), Qt::ApplicationShortcut}},
+     {QStringLiteral("Toggle FMV-Hack"),          QStringLiteral("Main Window"), {QStringLiteral("Ctrl+T"), Qt::ApplicationShortcut}},
      {QStringLiteral("Toggle Screen Layout"),     QStringLiteral("Main Window"), {QStringLiteral("F10"), Qt::WindowShortcut}},
      {QStringLiteral("Toggle Status Bar"),        QStringLiteral("Main Window"), {QStringLiteral("Ctrl+S"), Qt::WindowShortcut}},
      {QStringLiteral("Toggle Texture Dumping"),   QStringLiteral("Main Window"), {QStringLiteral("Ctrl+D"), Qt::ApplicationShortcut}}}};
@@ -488,6 +489,8 @@ void Config::ReadRendererValues() {
         ReadSetting(QStringLiteral("use_frame_limit_alternate"), false).toBool();
     Settings::values.frame_limit_alternate =
         ReadSetting(QStringLiteral("frame_limit_alternate"), 200).toInt();
+    Settings::values.FMV_hack = ReadSetting(QStringLiteral("FMV_hack"), true).toBool();
+    Settings::values.AddTicks = ReadSetting(QStringLiteral("AddTicks"), 18000).toInt();
 
     Settings::values.bg_red = ReadSetting(QStringLiteral("bg_red"), 0.0).toFloat();
     Settings::values.bg_green = ReadSetting(QStringLiteral("bg_green"), 0.0).toFloat();
@@ -990,6 +993,8 @@ void Config::SaveRendererValues() {
                  Settings::values.use_frame_limit_alternate, false);
     WriteSetting(QStringLiteral("frame_limit_alternate"), Settings::values.frame_limit_alternate,
                  200);
+    WriteSetting(QStringLiteral("FMV_hack"), Settings::values.FMV_hack, true);
+    WriteSetting(QStringLiteral("AddTicks"), Settings::values.AddTicks, 18000);
 
     // Cast to double because Qt's written float values are not human-readable
     WriteSetting(QStringLiteral("bg_red"), (double)Settings::values.bg_red, 0.0);

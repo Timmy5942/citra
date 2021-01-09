@@ -572,6 +572,11 @@ void GMainWindow::InitializeHotkeys() {
                     OnCaptureScreenshot();
                 }
             });
+    connect(hotkey_registry.GetHotkey(main_window, QStringLiteral("Toggle FMV-Hack"), this),
+            &QShortcut::activated, this, [&] {
+                Settings::values.FMV_hack = !Settings::values.FMV_hack;
+                UpdateStatusBar();
+            });
     connect(hotkey_registry.GetHotkey(main_window, QStringLiteral("Load from Newest Slot"), this),
             &QShortcut::activated, ui->action_Load_from_Newest_Slot, &QAction::trigger);
     connect(hotkey_registry.GetHotkey(main_window, QStringLiteral("Save to Oldest Slot"), this),

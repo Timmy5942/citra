@@ -17,6 +17,9 @@ ConfigureGraphics::ConfigureGraphics(QWidget* parent)
     ui->setupUi(this);
     SetConfiguration();
 
+    ui->AddTicks->setEnabled(Settings::values.FMV_hack);
+    connect(ui->FMV_hack, &QCheckBox::toggled, ui->AddTicks, &QWidget::setEnabled);
+
     ui->hw_renderer_group->setEnabled(ui->toggle_hw_renderer->isChecked());
     ui->toggle_vsync_new->setEnabled(!Core::System::GetInstance().IsPoweredOn());
 
@@ -75,6 +78,8 @@ void ConfigureGraphics::SetConfiguration() {
     ui->toggle_shader_jit->setChecked(Settings::values.use_shader_jit);
     ui->toggle_disk_shader_cache->setChecked(Settings::values.use_disk_shader_cache);
     ui->toggle_vsync_new->setChecked(Settings::values.use_vsync_new);
+    ui->FMV_hack->setChecked(Settings::values.FMV_hack);
+    ui->AddTicks->setValue(Settings::values.AddTicks);
 }
 
 void ConfigureGraphics::ApplyConfiguration() {
@@ -85,6 +90,8 @@ void ConfigureGraphics::ApplyConfiguration() {
     Settings::values.use_shader_jit = ui->toggle_shader_jit->isChecked();
     Settings::values.use_disk_shader_cache = ui->toggle_disk_shader_cache->isChecked();
     Settings::values.use_vsync_new = ui->toggle_vsync_new->isChecked();
+    Settings::values.FMV_hack = ui->FMV_hack->isChecked();
+    Settings::values.AddTicks = ui->AddTicks->value();
 }
 
 void ConfigureGraphics::RetranslateUI() {
